@@ -1,13 +1,16 @@
 import justpy as jp
 from definition import Definition
+from webapp import layout, page
 
-class Dictionary:
+class Dictionary(page.Page):
     path = "/dictionary"
 
     @classmethod
     def serve(cls, req):
         wp = jp.QuasarPage(tailwind=True)
-        div = jp.Div(a=wp, classes="bg-blue-200 h-screen")
+        lay = layout.DefaultLayout(a=wp)
+        container = jp.QPageContainer(a=lay)
+        div = jp.Div(a=container, classes="bg-blue-200 h-screen")
         jp.Div(a=div, text="This is the Dictionary page.", classes="text-4xl m-2")
         jp.Div(a=div, text="Defines a word as entered.", classes="text-lg")
 
@@ -27,6 +30,7 @@ class Dictionary:
 
     @staticmethod
     def get_definition(widget, msg):
+        #widget.outputdiv.text = widget.inputbox.value
         defined = Definition(widget.inputbox.value).get()
         widget.outputdiv.text = "".join(defined)
 

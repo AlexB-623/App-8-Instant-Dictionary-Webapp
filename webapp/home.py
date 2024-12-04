@@ -1,48 +1,19 @@
 import justpy as jp
+from webapp import layout, page
 
-class Home:
+class Home(page.Page):
     path = "/"
 
     @classmethod
     def serve(cls, req):
         wp = jp.QuasarPage(tailwind=True)
-        #adding the left navbar
-        layout = jp.QLayout(a=wp, view="hHh lpR fFf")
-        header = jp.QHeader(a=layout)
-        toolbar = jp.QToolbar(a=header)
+        #calling the layout class
+        lay = layout.DefaultLayout(a=wp)
+        container = jp.QPageContainer(a=lay)
 
-        drawer = jp.QDrawer(a=layout,
-                            show_if_above=True,
-                            v_mode="left",
-                            bordered=True)
-
-        #adding links to the navbar
-        scroller = jp.QScrollArea(a=drawer, classes="fit")
-        qlist = jp.QList(a=scroller)
-        a_classes = "p-2 m-2 text-lg text-blue-400 hover:text-blue-700"
-        jp.Br(a=qlist)
-        jp.A(a=qlist, text="Home", href="/", classes=a_classes)
-        jp.Br(a=qlist)
-        jp.A(a=qlist, text="Dictionary", href="/dictionary", classes=a_classes)
-        jp.Br(a=qlist)
-        jp.A(a=qlist, text="About", href="/about", classes=a_classes)
-        jp.Br(a=qlist)
-
-        jp.QBtn(a=toolbar, dense=True, flat=True, round=True, icon="menu",
-                click=cls.move_drawer, drawer=drawer)
-        jp.QToolbarTitle(a=toolbar, text="InstaDict!")
-
-        container = jp.QPageContainer(a=layout)
-
-    #adding the homepage content
+        #adding the homepage content
         div = jp.Div(a=container, classes="bg-gray-200 h-screen p-2")
         jp.Div(a=div, text="This is the Home page.", classes="text-4xl m-2")
         jp.Div(a=div, text="Homepage", classes="text-lg")
         return wp
 
-    @staticmethod
-    def move_drawer(widget, msg):
-        if widget.drawer.value:
-            widget.drawer.value = False
-        else:
-            widget.drawer.value = True

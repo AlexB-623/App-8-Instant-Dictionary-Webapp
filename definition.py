@@ -6,6 +6,7 @@ class Definition:
         self.term = term
 
     def get(self):
+        #the app seems to have problems accessing this file when called from elsewhere
         df = pandas.read_csv(r'C:\Users\alexb\PycharmProjects\App-8-Instant-Dictionary-Webapp\data.csv')
         return tuple(df.loc[df['word']==self.term]['definition'])
 
